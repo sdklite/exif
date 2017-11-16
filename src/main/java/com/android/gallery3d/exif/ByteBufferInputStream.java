@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -16,10 +14,13 @@ package com.android.gallery3d.exif;
  * limitations under the License.
  */
 
+package com.android.gallery3d.exif;
+
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 class ByteBufferInputStream extends InputStream {
+
     private ByteBuffer mBuf;
 
     public ByteBufferInputStream(ByteBuffer buf) {
@@ -39,6 +40,7 @@ class ByteBufferInputStream extends InputStream {
         if (!mBuf.hasRemaining()) {
             return -1;
         }
+
         len = Math.min(len, mBuf.remaining());
         mBuf.get(bytes, off, len);
         return len;

@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -15,6 +13,8 @@ package com.android.gallery3d.exif;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.android.gallery3d.exif;
 
 import android.util.Log;
 
@@ -42,6 +42,7 @@ class ExifData {
     private static final byte[] USER_COMMENT_UNICODE = {
             0x55, 0x4E, 0x49, 0x43, 0x4F, 0x44, 0x45, 0x00
     };
+
     private final IfdData[] mIfdDatas = new IfdData[IfdId.TYPE_IFD_COUNT];
     private byte[] mThumbnail;
     private ArrayList<byte[]> mStripBytes = new ArrayList<byte[]>();
@@ -224,10 +225,13 @@ class ExifData {
         if (tag.getComponentCount() < 8) {
             return null;
         }
+
         byte[] buf = new byte[tag.getComponentCount()];
         tag.getBytes(buf);
+
         byte[] code = new byte[8];
         System.arraycopy(buf, 0, code, 0, 8);
+
         try {
             if (Arrays.equals(code, USER_COMMENT_ASCII)) {
                 return new String(buf, 8, buf.length - 8, "US-ASCII");
@@ -340,4 +344,5 @@ class ExifData {
         }
         return false;
     }
+
 }

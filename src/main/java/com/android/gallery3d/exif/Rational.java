@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -16,11 +14,14 @@ package com.android.gallery3d.exif;
  * limitations under the License.
  */
 
+package com.android.gallery3d.exif;
+
 /**
  * The rational data type of EXIF tag. Contains a pair of longs representing the
  * numerator and denominator of a Rational number.
  */
 public class Rational {
+
     private final long mNumerator;
     private final long mDenominator;
 

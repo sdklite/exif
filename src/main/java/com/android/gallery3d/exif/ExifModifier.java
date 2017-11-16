@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -15,6 +13,8 @@ package com.android.gallery3d.exif;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.android.gallery3d.exif;
 
 import android.util.Log;
 
@@ -71,13 +71,14 @@ class ExifModifier {
         try {
             is = new ByteBufferInputStream(mByteBuffer);
             int flag = 0;
-            IfdData[] ifdDatas = new IfdData[]{
+            IfdData[] ifdDatas = new IfdData[] {
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_0),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_1),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_EXIF),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_INTEROPERABILITY),
                     mTagToModified.getIfdData(IfdId.TYPE_IFD_GPS)
             };
+
             if (ifdDatas[IfdId.TYPE_IFD_0] != null) {
                 flag |= ExifParser.OPTION_IFD_0;
             }
@@ -93,6 +94,7 @@ class ExifModifier {
             if (ifdDatas[IfdId.TYPE_IFD_INTEROPERABILITY] != null) {
                 flag |= ExifParser.OPTION_IFD_INTEROPERABILITY;
             }
+
             ExifParser parser = ExifParser.parse(is, flag, mInterface);
             int event = parser.next();
             IfdData currIfd = null;
@@ -150,7 +152,7 @@ class ExifModifier {
         mByteBuffer.position(offset + mOffsetBase);
         switch (tag.getDataType()) {
             case ExifTag.TYPE_ASCII:
-                byte[] buf = tag.getStringByte();
+                byte buf[] = tag.getStringByte();
                 if (buf.length == tag.getComponentCount()) {
                     buf[buf.length - 1] = 0;
                     mByteBuffer.put(buf);

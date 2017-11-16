@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -15,10 +13,11 @@ package com.android.gallery3d.exif;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.android.gallery3d.exif;
+
 public class ExifInvalidFormatException extends Exception {
-
-    public ExifInvalidFormatException(String msg) {
-        super(msg);
+    public ExifInvalidFormatException(String meg) {
+        super(meg);
     }
-
 }

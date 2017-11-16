@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -16,6 +14,8 @@ package com.android.gallery3d.exif;
  * limitations under the License.
  */
 
+package com.android.gallery3d.exif;
+
 import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -25,9 +25,11 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 
 class CountedDataInputStream extends FilterInputStream {
+
     private int mCount = 0;
+
     // allocate a byte buffer for a long value;
-    private final byte[] mByteArray = new byte[8];
+    private final byte mByteArray[] = new byte[8];
     private final ByteBuffer mByteBuffer = ByteBuffer.wrap(mByteArray);
 
     protected CountedDataInputStream(InputStream in) {
@@ -73,7 +75,7 @@ class CountedDataInputStream extends FilterInputStream {
     public void skipTo(long target) throws IOException {
         long cur = mCount;
         long diff = target - cur;
-        assert (diff >= 0);
+        assert(diff >= 0);
         skipOrThrow(diff);
     }
 
@@ -95,7 +97,7 @@ class CountedDataInputStream extends FilterInputStream {
     }
 
     public short readShort() throws IOException {
-        readOrThrow(mByteArray, 0, 2);
+        readOrThrow(mByteArray, 0 ,2);
         mByteBuffer.rewind();
         return mByteBuffer.getShort();
     }
@@ -105,7 +107,7 @@ class CountedDataInputStream extends FilterInputStream {
     }
 
     public int readInt() throws IOException {
-        readOrThrow(mByteArray, 0, 4);
+        readOrThrow(mByteArray, 0 , 4);
         mByteBuffer.rewind();
         return mByteBuffer.getInt();
     }
@@ -115,21 +117,20 @@ class CountedDataInputStream extends FilterInputStream {
     }
 
     public long readLong() throws IOException {
-        readOrThrow(mByteArray, 0, 8);
+        readOrThrow(mByteArray, 0 , 8);
         mByteBuffer.rewind();
         return mByteBuffer.getLong();
     }
 
     public String readString(int n) throws IOException {
-        byte[] buf = new byte[n];
+        byte buf[] = new byte[n];
         readOrThrow(buf);
         return new String(buf, "UTF8");
     }
 
     public String readString(int n, Charset charset) throws IOException {
-        byte[] buf = new byte[n];
+        byte buf[] = new byte[n];
         readOrThrow(buf);
         return new String(buf, charset);
     }
 }
-

@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -16,6 +14,8 @@ package com.android.gallery3d.exif;
  * limitations under the License.
  */
 
+package com.android.gallery3d.exif;
+
 import android.util.Log;
 
 import java.io.IOException;
@@ -27,6 +27,7 @@ import java.io.InputStream;
  */
 class ExifReader {
     private static final String TAG = "ExifReader";
+
     private final ExifInterface mInterface;
 
     ExifReader(ExifInterface iRef) {
@@ -45,6 +46,7 @@ class ExifReader {
         ExifParser parser = ExifParser.parse(inputStream, mInterface);
         ExifData exifData = new ExifData(parser.getByteOrder());
         ExifTag tag = null;
+
         int event = parser.next();
         while (event != ExifParser.EVENT_END) {
             switch (event) {
@@ -67,7 +69,7 @@ class ExifReader {
                     exifData.getIfdData(tag.getIfd()).setTag(tag);
                     break;
                 case ExifParser.EVENT_COMPRESSED_IMAGE:
-                    byte[] buf = new byte[parser.getCompressedImageSize()];
+                    byte buf[] = new byte[parser.getCompressedImageSize()];
                     if (buf.length == parser.read(buf)) {
                         exifData.setCompressedThumbnail(buf);
                     } else {

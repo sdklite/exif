@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -15,8 +13,12 @@ package com.android.gallery3d.exif;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-        import java.util.HashMap;
-        import java.util.Map;
+
+package com.android.gallery3d.exif;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class stores all the tags in an IFD.
  *
@@ -24,6 +26,7 @@ package com.android.gallery3d.exif;
  * @see ExifTag
  */
 class IfdData {
+
     private final int mIfdId;
     private final Map<Short, ExifTag> mExifTags = new HashMap<Short, ExifTag>();
     private int mOffsetToNextIfd = 0;
@@ -43,15 +46,18 @@ class IfdData {
     IfdData(int ifdId) {
         mIfdId = ifdId;
     }
+
     static protected int[] getIfds() {
         return sIfds;
     }
+
     /**
      * Get a array the contains all {@link ExifTag} in this IFD.
      */
     protected ExifTag[] getAllTags() {
         return mExifTags.values().toArray(new ExifTag[mExifTags.size()]);
     }
+
     /**
      * Gets the ID of this IFD.
      *
@@ -64,6 +70,7 @@ class IfdData {
     protected int getId() {
         return mIfdId;
     }
+
     /**
      * Gets the {@link ExifTag} with given tag id. Return null if there is no
      * such tag.
@@ -71,6 +78,7 @@ class IfdData {
     protected ExifTag getTag(short tagId) {
         return mExifTags.get(tagId);
     }
+
     /**
      * Adds or replaces a {@link ExifTag}.
      */
@@ -78,33 +86,39 @@ class IfdData {
         tag.setIfd(mIfdId);
         return mExifTags.put(tag.getTagId(), tag);
     }
+
     protected boolean checkCollision(short tagId) {
         return mExifTags.get(tagId) != null;
     }
+
     /**
      * Removes the tag of the given ID
      */
     protected void removeTag(short tagId) {
         mExifTags.remove(tagId);
     }
+
     /**
      * Gets the tags count in the IFD.
      */
     protected int getTagCount() {
         return mExifTags.size();
     }
+
     /**
      * Sets the offset of next IFD.
      */
     protected void setOffsetToNextIfd(int offset) {
         mOffsetToNextIfd = offset;
     }
+
     /**
      * Gets the offset of next IFD.
      */
     protected int getOffsetToNextIfd() {
         return mOffsetToNextIfd;
     }
+
     /**
      * Returns true if all tags in this two IFDs are equal. Note that tags of
      * IFDs offset or thumbnail offset will be ignored.

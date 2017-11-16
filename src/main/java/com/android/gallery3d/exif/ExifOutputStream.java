@@ -1,5 +1,3 @@
-package com.android.gallery3d.exif;
-
 /*
  * Copyright (C) 2012 The Android Open Source Project
  *
@@ -16,6 +14,8 @@ package com.android.gallery3d.exif;
  * limitations under the License.
  */
 
+package com.android.gallery3d.exif;
+
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 /**
  * This class provides a way to replace the Exif header of a JPEG image.
- * <p/>
+ * <p>
  * Below is an example of writing EXIF data into a file
- * <p/>
+ *
  * <pre>
  * public static void writeExif(byte[] jpeg, ExifData exif, String path) {
  *     OutputStream os = null;
@@ -61,9 +61,11 @@ class ExifOutputStream extends FilterOutputStream {
     private static final String TAG = "ExifOutputStream";
     private static final boolean DEBUG = false;
     private static final int STREAMBUFFER_SIZE = 0x00010000; // 64Kb
+
     private static final int STATE_SOI = 0;
     private static final int STATE_FRAME_HEADER = 1;
     private static final int STATE_JPEG_DATA = 2;
+
     private static final int EXIF_HEADER = 0x45786966;
     private static final short TIFF_HEADER = 0x002A;
     private static final short TIFF_BIG_ENDIAN = 0x4d4d;
@@ -71,6 +73,7 @@ class ExifOutputStream extends FilterOutputStream {
     private static final short TAG_SIZE = 12;
     private static final short TIFF_HEADER_SIZE = 8;
     private static final int MAX_EXIF_SIZE = 65535;
+
     private ExifData mExifData;
     private int mState = STATE_SOI;
     private int mByteToSkip;
@@ -239,7 +242,7 @@ class ExifOutputStream extends FilterOutputStream {
 
     private ArrayList<ExifTag> stripNullValueTags(ExifData data) {
         ArrayList<ExifTag> nullTags = new ArrayList<ExifTag>();
-        for (ExifTag t : data.getAllTags()) {
+        for(ExifTag t : data.getAllTags()) {
             if (t.getValue() == null && !ExifInterface.isOffsetTag(t.getTagId())) {
                 data.removeTag(t.getTagId(), t.getIfd());
                 nullTags.add(t);
@@ -328,12 +331,14 @@ class ExifOutputStream extends FilterOutputStream {
                     + ExifInterface.TAG_EXIF_IFD);
         }
         ifd0.setTag(exifOffsetTag);
+
         // Exif IFD is required for all files.
         IfdData exifIfd = mExifData.getIfdData(IfdId.TYPE_IFD_EXIF);
         if (exifIfd == null) {
             exifIfd = new IfdData(IfdId.TYPE_IFD_EXIF);
             mExifData.addIfdData(exifIfd);
         }
+
         // GPS IFD
         IfdData gpsIfd = mExifData.getIfdData(IfdId.TYPE_IFD_GPS);
         if (gpsIfd != null) {
@@ -344,6 +349,7 @@ class ExifOutputStream extends FilterOutputStream {
             }
             ifd0.setTag(gpsOffsetTag);
         }
+
         // Interoperability IFD
         IfdData interIfd = mExifData.getIfdData(IfdId.TYPE_IFD_INTEROPERABILITY);
         if (interIfd != null) {
@@ -355,19 +361,24 @@ class ExifOutputStream extends FilterOutputStream {
             }
             exifIfd.setTag(interOffsetTag);
         }
+
         IfdData ifd1 = mExifData.getIfdData(IfdId.TYPE_IFD_1);
+
         // thumbnail
         if (mExifData.hasCompressedThumbnail()) {
+
             if (ifd1 == null) {
                 ifd1 = new IfdData(IfdId.TYPE_IFD_1);
                 mExifData.addIfdData(ifd1);
             }
+
             ExifTag offsetTag = mInterface
                     .buildUninitializedTag(ExifInterface.TAG_JPEG_INTERCHANGE_FORMAT);
             if (offsetTag == null) {
                 throw new IOException("No definition for crucial exif tag: "
                         + ExifInterface.TAG_JPEG_INTERCHANGE_FORMAT);
             }
+
             ifd1.setTag(offsetTag);
             ExifTag lengthTag = mInterface
                     .buildUninitializedTag(ExifInterface.TAG_JPEG_INTERCHANGE_FORMAT_LENGTH);
@@ -375,8 +386,10 @@ class ExifOutputStream extends FilterOutputStream {
                 throw new IOException("No definition for crucial exif tag: "
                         + ExifInterface.TAG_JPEG_INTERCHANGE_FORMAT_LENGTH);
             }
+
             lengthTag.setValue(mExifData.getCompressedThumbnail().length);
             ifd1.setTag(lengthTag);
+
             // Get rid of tags for uncompressed if they exist.
             ifd1.removeTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_STRIP_OFFSETS));
             ifd1.removeTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_STRIP_BYTE_COUNTS));
@@ -423,24 +436,29 @@ class ExifOutputStream extends FilterOutputStream {
         IfdData ifd0 = mExifData.getIfdData(IfdId.TYPE_IFD_0);
         offset = calculateOffsetOfIfd(ifd0, offset);
         ifd0.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_EXIF_IFD)).setValue(offset);
+
         IfdData exifIfd = mExifData.getIfdData(IfdId.TYPE_IFD_EXIF);
         offset = calculateOffsetOfIfd(exifIfd, offset);
+
         IfdData interIfd = mExifData.getIfdData(IfdId.TYPE_IFD_INTEROPERABILITY);
         if (interIfd != null) {
             exifIfd.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_INTEROPERABILITY_IFD))
                     .setValue(offset);
             offset = calculateOffsetOfIfd(interIfd, offset);
         }
+
         IfdData gpsIfd = mExifData.getIfdData(IfdId.TYPE_IFD_GPS);
         if (gpsIfd != null) {
             ifd0.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_GPS_IFD)).setValue(offset);
             offset = calculateOffsetOfIfd(gpsIfd, offset);
         }
+
         IfdData ifd1 = mExifData.getIfdData(IfdId.TYPE_IFD_1);
         if (ifd1 != null) {
             ifd0.setOffsetToNextIfd(offset);
             offset = calculateOffsetOfIfd(ifd1, offset);
         }
+
         // thumbnail
         if (mExifData.hasCompressedThumbnail()) {
             ifd1.getTag(ExifInterface.getTrueTagKey(ExifInterface.TAG_JPEG_INTERCHANGE_FORMAT))
@@ -463,7 +481,7 @@ class ExifOutputStream extends FilterOutputStream {
             throws IOException {
         switch (tag.getDataType()) {
             case ExifTag.TYPE_ASCII:
-                byte[] buf = tag.getStringByte();
+                byte buf[] = tag.getStringByte();
                 if (buf.length == tag.getComponentCount()) {
                     buf[buf.length - 1] = 0;
                     dataOutputStream.write(buf);
