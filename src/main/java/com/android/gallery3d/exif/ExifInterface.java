@@ -52,7 +52,7 @@ import java.util.TimeZone;
  * updated by: reading new ones from a file, deleting or adding existing ones,
  * or building new ExifTags from a tag definition. These ExifTags can be written
  * to a valid jpeg image as exif metadata.
- * <p/>
+ * <p></p>
  * Each ExifTag has a tag ID (TID) and is stored in a specific image file
  * directory (IFD) as specified by the exif standard. A tag definition can be
  * looked up with a constant that is a combination of TID and IFD. This
@@ -370,9 +370,9 @@ public class ExifInterface {
      * <li>TOP_RIGHT is a left-right mirror.</li>
      * <li>BOTTOM_LEFT is a 180 degree rotation.</li>
      * <li>BOTTOM_RIGHT is a top-bottom mirror.</li>
-     * <li>LEFT_TOP is mirrored about the top-left<->bottom-right axis.</li>
+     * <li>LEFT_TOP is mirrored about the top-left&lt;-&gt;bottom-right axis.</li>
      * <li>RIGHT_TOP is a 90 degree clockwise rotation.</li>
-     * <li>LEFT_BOTTOM is mirrored about the top-right<->bottom-left axis.</li>
+     * <li>LEFT_BOTTOM is mirrored about the top-right&lt;-&gt;bottom-left axis.</li>
      * <li>RIGHT_BOTTOM is a 270 degree clockwise rotation.</li>
      * </ul>
      */
@@ -459,9 +459,9 @@ public class ExifInterface {
     /**
      * Constants for {@link TAG_FLASH} As the definition in Jeita EXIF 2.2
      * standard, we can treat this constant as bitwise flag.
-     * <p/>
+     * <p></p>
      * e.g.
-     * <p/>
+     * <p></p>
      * short flash = FIRED | RETURN_STROBE_RETURN_LIGHT_DETECTED |
      * MODE_AUTO_MODE
      */
@@ -1152,7 +1152,7 @@ public class ExifInterface {
 
     /**
      * Returns a list of ExifTags that share an IFD (which can be obtained by
-     * calling {@link #getTrueIFD} on a defined tag constant) or null if none
+     * calling {@link #getTrueIfd(int)} on a defined tag constant) or null if none
      * exist.
      *
      * @param ifdId an IFD as defined in the exif standard (or with
@@ -1466,7 +1466,7 @@ public class ExifInterface {
      * Returns true if tag TID is one of the following: {@link TAG_EXIF_IFD},
      * {@link TAG_GPS_IFD}, {@link TAG_JPEG_INTERCHANGE_FORMAT},
      * {@link TAG_STRIP_OFFSETS}, {@link TAG_INTEROPERABILITY_IFD}
-     * <p/>
+     * <p></p>
      * Note: defining tags with these TID's is disallowed.
      *
      * @param tag a tag's TID (can be obtained from a defined tag constant with
